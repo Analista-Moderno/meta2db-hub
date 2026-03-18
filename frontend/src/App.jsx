@@ -47,8 +47,8 @@ const Dashboard = () => {
                   <td style={{ padding: '10px' }}>{job.datePreset}</td>
                   <td style={{ padding: '10px' }}>{job.destination?.name || 'Easypanel'}</td>
                   <td style={{ padding: '10px' }}>
-                    <span style={{ padding: '4px 8px', background: 'rgba(59,130,246,0.1)', color: 'var(--primary-color)', borderRadius: '4px', fontSize: '0.8rem' }}>
-                      Pausado (Falta de Redis)
+                    <span style={{ padding: '4px 8px', background: 'rgba(16,185,129,0.1)', color: 'var(--success-color)', borderRadius: '4px', fontSize: '0.8rem' }}>
+                      🟢 {job.status === 'active' ? 'Operante (Na Fila)' : job.status}
                     </span>
                   </td>
                 </tr>
