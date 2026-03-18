@@ -31,8 +31,25 @@ export const enqueueJob = async (pipelineJobId) => {
 
   if (!jobConfig) return;
 
-  const accounts = typeof jobConfig.accounts === 'string' ? JSON.parse(jobConfig.accounts) : jobConfig.accounts;
+  let accounts = typeof jobConfig.accounts === 'string' ? JSON.parse(jobConfig.accounts) : jobConfig.accounts;
   
+  // Auto-Discovery: Se não houver contas mapeadas, puxamos todas as contas do usuário
+  if (!accounts || accounts.length === 0) {
+    console.log('[Meta] Array de contas vazio. Iniciando Auto-Discovery no Graph API...');
+    const metaAuth = await prisma.metaOAuthConfig.findFirst();
+    if (metaAuth) {
+      try {
+        const res = await axios.get(`https://graph.facebook.com/${jobConfig.apiVersion || 'v20.0'}/me/adaccounts?access_token=${metaAuth.accessToken}`);
+        accounts = res.data.data.map(acc => acc.id); // Array de 'act_xxxxxxx'
+        console.log(`[Meta] Auto-Discovery encontrou ${accounts.length} conta(s):`, accounts);
+      } catch (e) {
+        console.error('[Meta] Falha no Auto-Discovery de contas', e.response?.data || e.message);
+      }
+    }
+  }
+
+  if (!accounts) accounts = [];
+
   // O construtor orquestra se é Daily ou Backfill para cada Conta
   for (const accountId of accounts) {
     try {
