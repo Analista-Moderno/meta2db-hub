@@ -6,7 +6,7 @@ const PipelineBuilder = () => {
   const [formData, setFormData] = useState({
     name: '',
     destinationId: '',
-    apiVersion: 'v20.0',
+    apiVersion: 'v25.0',
     datePreset: 'last_30d',
     timeIncrement: '1',
     level: 'ad',
@@ -77,11 +77,11 @@ const PipelineBuilder = () => {
               <div className="input-group">
                 <label>Versão da API do Meta</label>
                 <select value={formData.apiVersion} onChange={e => setFormData({ ...formData, apiVersion: e.target.value })}>
-                  <option value="v18.0">v18.0</option>
                   <option value="v19.0">v19.0</option>
                   <option value="v20.0">v20.0</option>
                   <option value="v21.0">v21.0</option>
-                  <option value="v24.0">v24.0 (Latest)</option>
+                  <option value="v24.0">v24.0</option>
+                  <option value="v25.0">v25.0 (Latest)</option>
                 </select>
               </div>
 
