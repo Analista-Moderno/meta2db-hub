@@ -39,7 +39,7 @@ export const enqueueJob = async (pipelineJobId) => {
     const metaAuth = await prisma.metaOAuthConfig.findFirst();
     if (metaAuth) {
       try {
-        const res = await axios.get(`https://graph.facebook.com/${jobConfig.apiVersion || 'v20.0'}/me/adaccounts?access_token=${metaAuth.accessToken}`);
+        const res = await axios.get(`https://graph.facebook.com/${jobConfig.apiVersion || 'v25.0'}/me/adaccounts?access_token=${metaAuth.accessToken}`);
         accounts = res.data.data.map(acc => acc.id); // Array de 'act_xxxxxxx'
         console.log(`[Meta] Auto-Discovery encontrou ${accounts.length} conta(s):`, accounts);
       } catch (e) {
